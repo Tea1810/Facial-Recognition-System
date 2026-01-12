@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}FaceID - Welcome{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/welcome.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="welcomeScreen" class="screen active">
+    <div class="logo-container">
+        <div class="logo-circle">
+            <svg viewBox="0 0 100 100" class="logo-icon">
+                <path d="M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+                <circle cx="42" cy="45" r="3" fill="currentColor"/>
+                <circle cx="58" cy="45" r="3" fill="currentColor"/>
+                <path d="M42 58 Q50 62 58 58" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <h1 class="logo-text">Face<span>ID</span></h1>
+    </div>
+    
+    <div class="button-group">
+        <button class="btn btn-primary" onclick="navigateToLogin()">
+            <span class="btn-icon">👤</span>
+            <span class="btn-text">Log In</span>
+            <span class="btn-glow"></span>
+        </button>
+        
+        <button class="btn btn-secondary" onclick="navigateToRegister()">
+            <span class="btn-icon">✦</span>
+            <span class="btn-text">Register</span>
+            <span class="btn-glow"></span>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<script src="{{ url_for('static', filename='js/pages/welcome.js') }}"></script>
+{% endblock %}

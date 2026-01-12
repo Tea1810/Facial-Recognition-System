@@ -1,0 +1,139 @@
+/* camera.css - Camera components (shared by login and register) */
+
+/* ============================================
+   CAMERA CONTAINER
+   ============================================ */
+
+.camera-container {
+    width: 90%;
+    max-width: 600px;
+    animation: fadeInUp 0.6s var(--transition-cubic);
+}
+
+/* ============================================
+   CAMERA HEADER
+   ============================================ */
+
+.camera-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.camera-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* ============================================
+   VIDEO WRAPPER
+   ============================================ */
+
+.video-wrapper {
+    position: relative;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#videoFeed, #registerVideoFeed {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ============================================
+   SCAN OVERLAY
+   ============================================ */
+
+.scan-overlay {
+    position: absolute;
+    inset: 20px;
+    pointer-events: none;
+}
+
+.corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--accent-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.corner-tl {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 8px 0 0 0;
+}
+
+.corner-tr {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+    border-radius: 0 8px 0 0;
+}
+
+.corner-bl {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 8px;
+}
+
+.corner-br {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+    border-radius: 0 0 8px 0;
+}
+
+/* ============================================
+   SCAN LINE ANIMATION
+   ============================================ */
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--accent-primary) 50%,
+        transparent 100%);
+    box-shadow: var(--shadow-glow);
+    animation: scanAnimation 2s ease-in-out infinite;
+}
+
+@keyframes scanAnimation {
+    0%, 100% {
+        top: 0;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        top: calc(100% - 2px);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .camera-header h2 {
+        font-size: 1.5rem;
+    }
+}

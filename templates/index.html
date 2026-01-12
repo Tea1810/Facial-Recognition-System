@@ -4,13 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FaceID - Secure Authentication</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/variables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/welcome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/camera.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/register.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
 </head>
 <body>
     <div class="noise-overlay"></div>
 
-    <!-- Welcome Screen -->
     <div id="welcomeScreen" class="screen active">
         <div class="logo-container">
             <div class="logo-circle">
@@ -25,30 +36,25 @@
             <h1 class="logo-text">Face<span>ID</span></h1>
         </div>
 
-        <div class="tagline">Secure. Instant. Biometric.</div>
-
         <div class="button-group">
-            <button class="btn btn-primary" onclick="startLogin()">
+            <button class="btn btn-primary" onclick="navigateToLogin()">
                 <span class="btn-icon">👤</span>
                 <span class="btn-text">Log In</span>
                 <span class="btn-glow"></span>
             </button>
 
-            <button class="btn btn-secondary" onclick="startRegister()">
+            <button class="btn btn-secondary" onclick="navigateToRegister()">
                 <span class="btn-icon">✦</span>
                 <span class="btn-text">Register</span>
                 <span class="btn-glow"></span>
             </button>
         </div>
-
-        <div class="footer-text">Next-generation facial recognition system</div>
     </div>
 
-    <!-- Camera Screen (Login) -->
     <div id="loginScreen" class="screen">
         <div class="camera-container">
             <div class="camera-header">
-                <button class="back-btn" onclick="backToWelcome()">
+                <button class="back-btn" onclick="navigateToWelcome()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round"/>
                     </svg>
@@ -79,11 +85,10 @@
         </div>
     </div>
 
-    <!-- Register Screen -->
     <div id="registerScreen" class="screen">
         <div class="camera-container">
             <div class="camera-header">
-                <button class="back-btn" onclick="backToWelcome()">
+                <button class="back-btn" onclick="navigateToWelcome()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round"/>
                     </svg>
@@ -113,7 +118,6 @@
         </div>
     </div>
 
-    <!-- Home Screen (After Successful Login) -->
     <div id="homeScreen" class="screen">
         <div class="home-container">
             <div class="welcome-header">
@@ -128,41 +132,9 @@
                 <p class="welcome-subtext">Authentication successful</p>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">🔐</div>
-                    <div class="stat-label">Security Level</div>
-                    <div class="stat-value">Maximum</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">⚡</div>
-                    <div class="stat-label">Auth Speed</div>
-                    <div class="stat-value">Instant</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">✓</div>
-                    <div class="stat-label">Status</div>
-                    <div class="stat-value">Verified</div>
-                </div>
-            </div>
-
             <div class="action-panel">
-                <h3>Quick Actions</h3>
+                <h3>Actions</h3>
                 <div class="action-buttons">
-                    <button class="action-btn">
-                        <span class="action-icon">📊</span>
-                        <span class="action-text">View Dashboard</span>
-                    </button>
-                    <button class="action-btn">
-                        <span class="action-icon">⚙️</span>
-                        <span class="action-text">Settings</span>
-                    </button>
-                    <button class="action-btn">
-                        <span class="action-icon">👥</span>
-                        <span class="action-text">Manage Users</span>
-                    </button>
                     <button class="action-btn" onclick="logout()">
                         <span class="action-icon">🚪</span>
                         <span class="action-text">Log Out</span>
@@ -178,7 +150,7 @@
             <div class="modal-icon error-icon">✕</div>
             <h2 class="modal-title">Authentication Failed</h2>
             <p class="modal-message">We couldn't recognize your face after 6 attempts.</p>
-            <button class="btn btn-primary" onclick="showRegisterFromError()">
+            <button class="btn btn-primary" onclick="navigateToRegisterFromError()">
                 <span class="btn-text">Don't have an account? Register here</span>
                 <span class="btn-glow"></span>
             </button>
@@ -197,6 +169,15 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <!-- Shared JavaScript -->
+    <script src="{{ url_for('static', filename='js/shared/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/shared/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/shared/camera.js') }}"></script>
+
+    <!-- Page-specific JavaScript -->
+    <script src="{{ url_for('static', filename='js/pages/welcome.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pages/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pages/register.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pages/home.js') }}"></script>
 </body>
 </html>

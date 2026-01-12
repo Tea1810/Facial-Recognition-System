@@ -1,0 +1,21 @@
+/* login.css - Login screen specific styles */
+
+#loginScreen {
+    /* Screen is managed by base.css */
+}
+
+/* ============================================
+   ATTEMPT COUNTER
+   ============================================ */
+
+.attempt-counter {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+#attemptCount {
+    color: var(--accent-primary);
+    font-weight: 600;
+}
