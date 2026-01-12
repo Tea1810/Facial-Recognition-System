@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceID - Secure Authentication</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="noise-overlay"></div>
+
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="logo-container">
+            <div class="logo-circle">
+                <svg viewBox="0 0 100 100" class="logo-icon">
+                    <path d="M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+                    <circle cx="42" cy="45" r="3" fill="currentColor"/>
+                    <circle cx="58" cy="45" r="3" fill="currentColor"/>
+                    <path d="M42 58 Q50 62 58 58" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <h1 class="logo-text">Face<span>ID</span></h1>
+        </div>
+
+        <div class="tagline">Secure. Instant. Biometric.</div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="startLogin()">
+                <span class="btn-icon">👤</span>
+                <span class="btn-text">Log In</span>
+                <span class="btn-glow"></span>
+            </button>
+
+            <button class="btn btn-secondary" onclick="startRegister()">
+                <span class="btn-icon">✦</span>
+                <span class="btn-text">Register</span>
+                <span class="btn-glow"></span>
+            </button>
+        </div>
+
+        <div class="footer-text">Next-generation facial recognition system</div>
+    </div>
+
+    <!-- Camera Screen (Login) -->
+    <div id="loginScreen" class="screen">
+        <div class="camera-container">
+            <div class="camera-header">
+                <button class="back-btn" onclick="backToWelcome()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <h2>Face Authentication</h2>
+            </div>
+
+            <div class="video-wrapper">
+                <img id="videoFeed" src="" alt="Camera Feed">
+                <div class="scan-overlay">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                    <div class="scan-line"></div>
+                </div>
+                <div id="statusMessage" class="status-message">Position your face in the frame</div>
+            </div>
+
+            <div class="attempt-counter">
+                <span id="attemptText">Attempt <span id="attemptCount">0</span> of 6</span>
+            </div>
+
+            <button class="btn btn-scan" onclick="attemptLogin()">
+                <span class="btn-text">Scan Face</span>
+                <span class="btn-glow"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="registerScreen" class="screen">
+        <div class="camera-container">
+            <div class="camera-header">
+                <button class="back-btn" onclick="backToWelcome()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <h2>Register New Face</h2>
+            </div>
+
+            <div class="video-wrapper">
+                <img id="registerVideoFeed" src="" alt="Camera Feed">
+                <div class="scan-overlay">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                </div>
+                <div id="registerStatus" class="status-message">Enter your name and capture your face</div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="nameInput" placeholder="Enter your name" class="name-input">
+            </div>
+
+            <button class="btn btn-scan" onclick="registerFace()">
+                <span class="btn-text">Capture & Register</span>
+                <span class="btn-glow"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Home Screen (After Successful Login) -->
+    <div id="homeScreen" class="screen">
+        <div class="home-container">
+            <div class="welcome-header">
+                <div class="user-avatar">
+                    <svg viewBox="0 0 100 100" class="avatar-icon">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="50" cy="40" r="15" fill="currentColor"/>
+                        <path d="M25 75 Q25 55 50 55 Q75 55 75 75" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1 class="welcome-text">Welcome back, <span id="userName"></span>!</h1>
+                <p class="welcome-subtext">Authentication successful</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-label">Security Level</div>
+                    <div class="stat-value">Maximum</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-label">Auth Speed</div>
+                    <div class="stat-value">Instant</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-label">Status</div>
+                    <div class="stat-value">Verified</div>
+                </div>
+            </div>
+
+            <div class="action-panel">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-btn">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">View Dashboard</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="action-icon">⚙️</span>
+                        <span class="action-text">Settings</span>
+                    </button>
+                    <button class="action-btn">
+                        <span class="action-icon">👥</span>
+                        <span class="action-text">Manage Users</span>
+                    </button>
+                    <button class="action-btn" onclick="logout()">
+                        <span class="action-icon">🚪</span>
+                        <span class="action-text">Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon error-icon">✕</div>
+            <h2 class="modal-title">Authentication Failed</h2>
+            <p class="modal-message">We couldn't recognize your face after 6 attempts.</p>
+            <button class="btn btn-primary" onclick="showRegisterFromError()">
+                <span class="btn-text">Don't have an account? Register here</span>
+                <span class="btn-glow"></span>
+            </button>
+            <button class="btn btn-ghost" onclick="closeErrorModal()">
+                <span class="btn-text">Try Again</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon success-icon">✓</div>
+            <h2 class="modal-title" id="successTitle">Success!</h2>
+            <p class="modal-message" id="successMessage">Your face has been registered successfully.</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
